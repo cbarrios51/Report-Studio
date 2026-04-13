@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "serve dist -l $PORT",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx"
   },
@@ -19,13 +20,13 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "xlsx": "^0.18.5",
-    "recharts": "^2.12.7",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "lucide-react": "^0.408.0"
+    "lucide-react": "^0.408.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.7",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
@@ -33,6 +34,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
+    "serve": "^14.2.6",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.5.3",
     "vite": "^5.3.4"
