@@ -21,5 +21,12 @@
     }
   },
   "include": ["src"],
+  "exclude": [
+    "src/components/ReportConfig",
+    "src/components/SectionBuilder",
+    "src/hooks/useReportConfig.tsx",
+    "src/utils/autoReportGenerator.ts",
+    "src/utils/dataAnalyzer.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
