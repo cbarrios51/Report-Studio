@@ -15,11 +15,11 @@ interface SectionPanelProps {
 }
 
 const TYPE_ICONS: Record<string, React.ReactNode> = {
-  table:  <Table2   className="w-3.5 h-3.5" />,
-  kpi:    <Layers   className="w-3.5 h-3.5" />,
+  table:  <Table2    className="w-3.5 h-3.5" />,
+  kpi:    <Layers    className="w-3.5 h-3.5" />,
   chart:  <BarChart3 className="w-3.5 h-3.5" />,
   text:   <AlignLeft className="w-3.5 h-3.5" />,
-  detail: <List     className="w-3.5 h-3.5" />,
+  detail: <List      className="w-3.5 h-3.5" />,
 };
 
 const TYPE_LABELS: Record<string, string> = {
@@ -30,13 +30,20 @@ const TYPE_LABELS: Record<string, string> = {
   detail: 'Detalle',
 };
 
-// Nothing-style: monochrome labels with thin left border accent per type
 const TYPE_ACCENT: Record<string, string> = {
-  table:  '#4488ff',
-  kpi:    '#22c55e',
-  chart:  '#aa88ff',
-  text:   '#f59e0b',
-  detail: '#06b6d4',
+  table:  '#4F8EF7',
+  kpi:    '#34D399',
+  chart:  '#A78BFA',
+  text:   '#FBBF24',
+  detail: '#22D3EE',
+};
+
+const TYPE_BG: Record<string, string> = {
+  table:  'rgba(79,142,247,0.1)',
+  kpi:    'rgba(52,211,153,0.1)',
+  chart:  'rgba(167,139,250,0.1)',
+  text:   'rgba(251,191,36,0.1)',
+  detail: 'rgba(34,211,238,0.1)',
 };
 
 export function SectionPanel({
@@ -50,76 +57,117 @@ export function SectionPanel({
   const visibleCount = sections.filter(s => s.visible).length;
 
   return (
-    <div className="flex flex-col h-full" style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}>
+    <div className="flex flex-col h-full" style={{ fontFamily: '"Inter", system-ui, sans-serif' }}>
 
       {/* Header */}
-      <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #1f1f1f' }}>
-        <p className="text-white text-xs font-semibold uppercase tracking-widest font-mono">Secciones</p>
-        <p className="text-dark-600 text-[10px] mt-0.5 font-mono">
-          {visibleCount}/{sections.length} visibles
+      <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #1E2D47' }}>
+        <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#A8BEDC' }}>
+          Secciones
         </p>
+        <div className="flex items-center gap-2 mt-1.5">
+          <span
+            className="text-xs font-medium px-2 py-0.5"
+            style={{
+              background: 'rgba(79,142,247,0.12)',
+              border: '1px solid rgba(79,142,247,0.2)',
+              borderRadius: 4,
+              color: '#4F8EF7',
+            }}
+          >
+            {visibleCount} visibles
+          </span>
+          <span className="text-xs" style={{ color: '#3E5470' }}>
+            de {sections.length}
+          </span>
+        </div>
       </div>
 
       {/* List */}
-      <div className="flex-1 overflow-y-auto py-2">
+      <div className="flex-1 overflow-y-auto py-2 px-2">
         {sections.length === 0 ? (
-          <div className="px-4 py-8 text-center text-dark-600 text-xs font-mono">
+          <div className="px-4 py-8 text-center text-xs" style={{ color: '#3E5470' }}>
             Sin secciones
           </div>
         ) : (
-          <div className="space-y-px px-2">
+          <div className="space-y-1">
             {sections.map((section, index) => {
               const isSelected = section.id === selectedId;
-              const accent = TYPE_ACCENT[section.type] || '#666';
+              const accent = TYPE_ACCENT[section.type] || '#4F8EF7';
+              const bg     = TYPE_BG[section.type]     || 'rgba(79,142,247,0.08)';
 
               return (
                 <div
                   key={section.id}
-                  className="group relative cursor-pointer transition-colors"
+                  className="group relative cursor-pointer transition-all duration-150"
                   style={{
-                    borderLeft: `2px solid ${isSelected ? accent : 'transparent'}`,
-                    background: isSelected ? 'rgba(255,255,255,0.04)' : 'transparent',
-                    opacity: section.visible ? 1 : 0.35,
+                    borderRadius: 8,
+                    background: isSelected ? bg : 'transparent',
+                    border: `1px solid ${isSelected ? accent + '33' : 'transparent'}`,
+                    opacity: section.visible ? 1 : 0.4,
                   }}
                   onClick={() => onSelect(section.id)}
+                  onMouseEnter={e => {
+                    if (!isSelected)
+                      (e.currentTarget as HTMLDivElement).style.background = 'rgba(30,45,71,0.6)';
+                  }}
+                  onMouseLeave={e => {
+                    if (!isSelected)
+                      (e.currentTarget as HTMLDivElement).style.background = 'transparent';
+                  }}
                 >
-                  <div className="flex items-center gap-2 px-2 py-2">
+                  <div className="flex items-center gap-2 px-2.5 py-2">
 
-                    {/* Type icon */}
-                    <span style={{ color: accent, flexShrink: 0 }}>
+                    {/* Type icon badge */}
+                    <div
+                      className="flex items-center justify-center w-6 h-6 flex-shrink-0"
+                      style={{
+                        background: isSelected ? bg : 'rgba(30,45,71,0.6)',
+                        borderRadius: 6,
+                        color: accent,
+                      }}
+                    >
                       {TYPE_ICONS[section.type]}
-                    </span>
+                    </div>
 
                     {/* Title */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs text-white truncate font-medium">
+                      <p className="text-xs font-medium truncate" style={{ color: '#EDF2FF' }}>
                         {section.title || 'Sin título'}
                       </p>
-                      <p className="text-[10px] font-mono" style={{ color: '#444' }}>
+                      <p className="text-[10px] truncate" style={{ color: '#3E5470' }}>
                         {TYPE_LABELS[section.type]}
                         {'sourceSheet' in section ? ` · ${(section as any).sourceSheet}` : ''}
                       </p>
                     </div>
 
-                    {/* Actions (visible on hover) */}
+                    {/* Actions (hover) */}
                     <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         onClick={(e) => { e.stopPropagation(); onMove(index, index - 1); }}
                         disabled={index === 0}
-                        className="p-1 text-dark-600 hover:text-white disabled:opacity-20 transition-colors"
+                        className="p-1 rounded disabled:opacity-20 transition-colors"
+                        style={{ color: '#6B85A8' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#EDF2FF')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
                       >
                         <ChevronUp className="w-3 h-3" />
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); onMove(index, index + 1); }}
                         disabled={index === sections.length - 1}
-                        className="p-1 text-dark-600 hover:text-white disabled:opacity-20 transition-colors"
+                        className="p-1 rounded disabled:opacity-20 transition-colors"
+                        style={{ color: '#6B85A8' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#EDF2FF')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
                       >
                         <ChevronDown className="w-3 h-3" />
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); onRemove(section.id); }}
-                        className="p-1 text-dark-600 hover:text-primary transition-colors"
+                        className="p-1 rounded transition-colors"
+                        style={{ color: '#6B85A8' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#F87171')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -128,11 +176,13 @@ export function SectionPanel({
                     {/* Eye toggle */}
                     <button
                       onClick={(e) => { e.stopPropagation(); onToggle(section.id); }}
-                      className="p-1 flex-shrink-0 transition-colors"
-                      style={{ color: section.visible ? '#444' : '#2a2a2a' }}
+                      className="p-1 rounded flex-shrink-0 transition-colors"
+                      style={{ color: section.visible ? '#4F8EF7' : '#3E5470' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = section.visible ? '#6BA3F9' : '#6B85A8')}
+                      onMouseLeave={e => (e.currentTarget.style.color = section.visible ? '#4F8EF7' : '#3E5470')}
                     >
                       {section.visible
-                        ? <Eye className="w-3.5 h-3.5" />
+                        ? <Eye    className="w-3.5 h-3.5" />
                         : <EyeOff className="w-3.5 h-3.5" />
                       }
                     </button>
@@ -145,12 +195,12 @@ export function SectionPanel({
       </div>
 
       {/* Footer legend */}
-      <div className="px-4 py-3" style={{ borderTop: '1px solid #1a1a1a' }}>
+      <div className="px-3 py-3" style={{ borderTop: '1px solid #1E2D47' }}>
         <div className="grid grid-cols-2 gap-y-1.5 gap-x-2">
           {Object.entries(TYPE_LABELS).map(([type, label]) => (
             <div key={type} className="flex items-center gap-1.5">
               <span style={{ color: TYPE_ACCENT[type], flexShrink: 0 }}>{TYPE_ICONS[type]}</span>
-              <span className="text-[10px] font-mono" style={{ color: '#444' }}>{label}</span>
+              <span className="text-[10px]" style={{ color: '#3E5470' }}>{label}</span>
             </div>
           ))}
         </div>

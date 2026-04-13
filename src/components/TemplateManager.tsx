@@ -74,13 +74,13 @@ export function TemplateManager({ sections, meta, onApply }: TemplateManagerProp
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-xs font-medium transition-colors"
+        className="flex items-center gap-1.5 text-xs font-medium transition-all"
         style={{
-          padding: '4px 10px',
-          border: `1px solid ${open ? '#ff3333' : '#1f1f1f'}`,
-          borderRadius: 0,
-          background: open ? 'rgba(255,51,51,0.08)' : 'transparent',
-          color: open ? '#ff6666' : '#555555',
+          padding: '5px 12px',
+          border: `1px solid ${open ? 'rgba(167,139,250,0.5)' : '#1E2D47'}`,
+          borderRadius: 6,
+          background: open ? 'rgba(167,139,250,0.1)' : 'transparent',
+          color: open ? '#A78BFA' : '#6B85A8',
         }}
         title="Plantillas de reporte"
       >
@@ -98,38 +98,53 @@ export function TemplateManager({ sections, meta, onApply }: TemplateManagerProp
 
           {/* Panel */}
           <div
-            className="absolute right-0 top-full mt-1 z-50 shadow-2xl"
+            className="absolute right-0 top-full mt-2 z-50"
             style={{
               width: 340,
-              background: '#0f0f0f',
-              border: '1px solid #2a2a2a',
-              fontFamily: '"Space Grotesk", system-ui, sans-serif',
+              background: '#0F1629',
+              border: '1px solid #1E2D47',
+              borderRadius: 10,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+              fontFamily: '"Inter", system-ui, sans-serif',
             }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-4 py-3"
-              style={{ borderBottom: '1px solid #1f1f1f' }}
+              style={{ borderBottom: '1px solid #1E2D47' }}
             >
               <div className="flex items-center gap-2">
-                <BookMarked className="w-3.5 h-3.5" style={{ color: '#ff3333' }} />
-                <span className="text-white text-sm font-semibold">Plantillas</span>
+                <BookMarked className="w-3.5 h-3.5" style={{ color: '#A78BFA' }} />
+                <span className="text-sm font-semibold" style={{ color: '#EDF2FF' }}>Plantillas</span>
               </div>
-              <button onClick={() => { setOpen(false); setSaveMode(false); }} className="text-dark-600 hover:text-white">
+              <button
+                onClick={() => { setOpen(false); setSaveMode(false); }}
+                style={{ color: '#6B85A8' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#EDF2FF')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Save section */}
-            <div className="px-4 py-3" style={{ borderBottom: '1px solid #1f1f1f' }}>
-              <p className="text-[10px] font-mono mb-2" style={{ color: '#444' }}>
-                Configuración actual: {visibleCount} sección{visibleCount !== 1 ? 'es' : ''} visible{visibleCount !== 1 ? 's' : ''}
+            <div className="px-4 py-3" style={{ borderBottom: '1px solid #1E2D47' }}>
+              <p className="text-[11px] mb-2" style={{ color: '#3E5470' }}>
+                {visibleCount} sección{visibleCount !== 1 ? 'es' : ''} visible{visibleCount !== 1 ? 's' : ''} en la configuración actual
               </p>
               {!saveMode ? (
                 <button
                   onClick={() => setSaveMode(true)}
-                  className="w-full flex items-center justify-center gap-2 text-xs font-medium transition-colors"
-                  style={{ padding: '7px', border: '1px solid #2a2a2a', background: '#1a1a1a', color: '#aaa' }}
+                  className="w-full flex items-center justify-center gap-2 text-xs font-medium transition-all"
+                  style={{
+                    padding: '8px',
+                    border: '1px solid #1E2D47',
+                    borderRadius: 8,
+                    background: '#162035',
+                    color: '#A8BEDC',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = '#2D4267')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = '#1E2D47')}
                 >
                   <Save className="w-3.5 h-3.5" />
                   Guardar configuración actual como plantilla
@@ -143,21 +158,43 @@ export function TemplateManager({ sections, meta, onApply }: TemplateManagerProp
                     onChange={e => setSaveName(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') handleSave(); if (e.key === 'Escape') setSaveMode(false); }}
                     placeholder="Nombre de la plantilla…"
-                    className="flex-1 text-xs text-white placeholder-dark-600 focus:outline-none"
-                    style={{ background: '#0a0a0a', border: '1px solid #2a2a2a', padding: '6px 10px', borderRadius: 0 }}
+                    className="flex-1 text-xs focus:outline-none"
+                    style={{
+                      background: '#0A1020',
+                      border: '1px solid #1E2D47',
+                      borderRadius: 6,
+                      padding: '7px 10px',
+                      color: '#EDF2FF',
+                    }}
+                    onFocus={e => (e.target.style.borderColor = '#A78BFA')}
+                    onBlur={e  => (e.target.style.borderColor = '#1E2D47')}
                   />
                   <button
                     onClick={handleSave}
                     disabled={!saveName.trim()}
-                    className="flex items-center justify-center disabled:opacity-30 transition-colors"
-                    style={{ width: 32, height: 32, border: '1px solid #ff3333', background: 'rgba(255,51,51,0.12)', color: '#ff6666', borderRadius: 0 }}
+                    className="flex items-center justify-center disabled:opacity-30 transition-all"
+                    style={{
+                      width: 34, height: 34,
+                      border: '1px solid rgba(167,139,250,0.5)',
+                      background: 'rgba(167,139,250,0.12)',
+                      color: '#A78BFA',
+                      borderRadius: 6,
+                    }}
                   >
                     <Check className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => { setSaveMode(false); setSaveName(''); }}
-                    className="flex items-center justify-center text-dark-600 hover:text-white"
-                    style={{ width: 32, height: 32, border: '1px solid #1f1f1f', background: 'transparent', borderRadius: 0 }}
+                    className="flex items-center justify-center transition-all"
+                    style={{
+                      width: 34, height: 34,
+                      border: '1px solid #1E2D47',
+                      background: 'transparent',
+                      borderRadius: 6,
+                      color: '#6B85A8',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#EDF2FF')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -168,32 +205,34 @@ export function TemplateManager({ sections, meta, onApply }: TemplateManagerProp
             {/* Template list */}
             <div style={{ maxHeight: 260, overflowY: 'auto' }}>
               {templates.length === 0 ? (
-                <div className="px-4 py-8 text-center" style={{ color: '#333' }}>
-                  <p className="text-xs font-mono mb-1">Sin plantillas guardadas</p>
-                  <p className="text-[10px]">Editá tu reporte y guardalo como plantilla para reutilizarlo.</p>
+                <div className="px-4 py-8 text-center" style={{ color: '#3E5470' }}>
+                  <p className="text-xs mb-1">Sin plantillas guardadas</p>
+                  <p className="text-[11px]">Editá tu reporte y guardalo como plantilla para reutilizarlo.</p>
                 </div>
               ) : (
                 templates.map(tpl => (
                   <div
                     key={tpl.id}
-                    className="flex items-center gap-2 px-4 py-2.5 group"
-                    style={{ borderBottom: '1px solid #1a1a1a' }}
+                    className="flex items-center gap-2 px-4 py-2.5 group transition-colors"
+                    style={{ borderBottom: '1px solid #162035' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(30,45,71,0.4)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-xs font-medium truncate">{tpl.name}</p>
-                      <p className="text-[10px] font-mono" style={{ color: '#444' }}>
-                        {formatDate(tpl.savedAt)} · {tpl.visibleIds.length} secciones visibles
+                      <p className="text-xs font-medium truncate" style={{ color: '#EDF2FF' }}>{tpl.name}</p>
+                      <p className="text-[11px]" style={{ color: '#3E5470' }}>
+                        {formatDate(tpl.savedAt)} · {tpl.visibleIds.length} secciones
                       </p>
                     </div>
                     <button
                       onClick={() => handleApply(tpl)}
-                      className="flex items-center gap-1 text-[10px] font-semibold transition-colors flex-shrink-0"
+                      className="flex items-center gap-1 text-[11px] font-semibold transition-all flex-shrink-0"
                       style={{
-                        padding: '3px 8px',
-                        border: `1px solid ${applied === tpl.id ? '#22c55e' : '#2a2a2a'}`,
-                        background: applied === tpl.id ? 'rgba(34,197,94,0.1)' : '#1a1a1a',
-                        color: applied === tpl.id ? '#22c55e' : '#aaa',
-                        borderRadius: 0,
+                        padding: '4px 9px',
+                        border: `1px solid ${applied === tpl.id ? 'rgba(52,211,153,0.4)' : '#1E2D47'}`,
+                        background: applied === tpl.id ? 'rgba(52,211,153,0.1)' : '#162035',
+                        color: applied === tpl.id ? '#34D399' : '#A8BEDC',
+                        borderRadius: 6,
                       }}
                     >
                       {applied === tpl.id
@@ -204,9 +243,9 @@ export function TemplateManager({ sections, meta, onApply }: TemplateManagerProp
                     <button
                       onClick={() => handleDelete(tpl.id)}
                       className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                      style={{ color: '#333' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = '#ff3333')}
-                      onMouseLeave={e => (e.currentTarget.style.color = '#333')}
+                      style={{ color: '#3E5470', borderRadius: 4 }}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#F87171')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#3E5470')}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -216,9 +255,9 @@ export function TemplateManager({ sections, meta, onApply }: TemplateManagerProp
             </div>
 
             {/* Hint */}
-            <div className="px-4 py-2.5" style={{ borderTop: '1px solid #1a1a1a' }}>
-              <p className="text-[10px] font-mono" style={{ color: '#333' }}>
-                Al aplicar: secciones que no estaban visibles al guardar quedan ocultas automáticamente.
+            <div className="px-4 py-2.5" style={{ borderTop: '1px solid #162035' }}>
+              <p className="text-[11px]" style={{ color: '#3E5470' }}>
+                Al aplicar: secciones no visibles al guardar quedan ocultas automáticamente.
               </p>
             </div>
           </div>

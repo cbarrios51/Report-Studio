@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileSpreadsheet, ChevronLeft, Settings } from 'lucide-react';
+import { BarChart3, ChevronLeft, Settings, FileSpreadsheet } from 'lucide-react';
 import { useReportStudio } from '@/hooks/useReportStudio';
 import { UploadScreen } from '@/components/UploadScreen';
 import { SectionPanel } from '@/components/SectionPanel';
@@ -39,60 +39,105 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-dark-950 overflow-hidden" style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}>
-
-      {/* Top bar — Nothing style: pure black, hairline border */}
+    <div
+      className="flex flex-col h-screen overflow-hidden"
+      style={{ background: '#070C1A', fontFamily: '"Inter", "Space Grotesk", system-ui, sans-serif' }}
+    >
+      {/* Top bar */}
       <header
-        className="flex items-center justify-between px-5 py-0 flex-shrink-0"
-        style={{ height: 48, background: '#000', borderBottom: '1px solid #1f1f1f' }}
+        className="flex items-center justify-between px-4 flex-shrink-0"
+        style={{
+          height: 52,
+          background: '#0A1020',
+          borderBottom: '1px solid #1E2D47',
+        }}
       >
-        {/* Left: back + file info */}
+        {/* Left: logo + file info */}
         <div className="flex items-center gap-3">
+          {/* Logo */}
+          <div className="flex items-center gap-2 mr-1">
+            <div
+              className="flex items-center justify-center w-7 h-7"
+              style={{ background: 'linear-gradient(135deg,#4F8EF7,#2563EB)', borderRadius: 7 }}
+            >
+              <BarChart3 className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-bold" style={{ color: '#EDF2FF' }}>Report Studio</span>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px h-5" style={{ background: '#1E2D47' }} />
+
+          {/* Back button */}
           <button
             onClick={reset}
-            className="flex items-center justify-center transition-colors text-dark-500 hover:text-white"
-            style={{ width: 28, height: 28, border: '1px solid #1f1f1f', borderRadius: 0, background: 'transparent' }}
+            className="flex items-center gap-1.5 text-xs font-medium transition-all"
+            style={{
+              padding: '4px 8px',
+              border: '1px solid #1E2D47',
+              borderRadius: 6,
+              background: 'transparent',
+              color: '#6B85A8',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = '#2D4267';
+              (e.currentTarget as HTMLButtonElement).style.color = '#A8BEDC';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = '#1E2D47';
+              (e.currentTarget as HTMLButtonElement).style.color = '#6B85A8';
+            }}
             title="Cargar otro archivo"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3.5 h-3.5" />
+            Inicio
           </button>
 
-          {/* Dot separator */}
-          <div className="w-1 h-1 rounded-full bg-dark-700" />
-
+          {/* File info */}
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="w-3.5 h-3.5 text-dark-500" />
-            <span className="text-white text-sm font-medium">{meta.title || 'Reporte'}</span>
-            <span className="text-dark-600 text-xs font-mono">·</span>
-            <span className="text-dark-500 text-xs font-mono">{excelFile?.name}</span>
-            <span className="text-dark-700 text-xs font-mono">
+            <FileSpreadsheet className="w-3.5 h-3.5" style={{ color: '#4F8EF7' }} />
+            <span className="text-sm font-medium" style={{ color: '#EDF2FF' }}>
+              {meta.title || 'Reporte'}
+            </span>
+            <span
+              className="text-xs px-2 py-0.5 font-mono"
+              style={{
+                background: 'rgba(79,142,247,0.1)',
+                border: '1px solid rgba(79,142,247,0.2)',
+                borderRadius: 4,
+                color: '#4F8EF7',
+              }}
+            >
               {excelFile?.sheets.length} hoja{excelFile?.sheets.length !== 1 ? 's' : ''}
+            </span>
+            <span className="text-xs hidden sm:block" style={{ color: '#3E5470' }}>
+              {excelFile?.name}
             </span>
           </div>
         </div>
 
         {/* Right: actions */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <TemplateManager
             sections={sections}
             meta={meta}
             onApply={applyTemplate}
           />
 
-          <div className="w-px h-4 bg-dark-800 mx-1" />
+          <div className="w-px h-5" style={{ background: '#1E2D47' }} />
 
           <button
             onClick={() => setShowMeta(!showMeta)}
-            className="flex items-center gap-1.5 text-xs font-medium transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium transition-all"
             style={{
-              padding: '4px 10px',
-              border: `1px solid ${showMeta ? '#ff3333' : '#1f1f1f'}`,
-              borderRadius: 0,
-              background: showMeta ? 'rgba(255,51,51,0.08)' : 'transparent',
-              color: showMeta ? '#ff6666' : '#888888',
+              padding: '5px 12px',
+              border: `1px solid ${showMeta ? 'rgba(79,142,247,0.5)' : '#1E2D47'}`,
+              borderRadius: 6,
+              background: showMeta ? 'rgba(79,142,247,0.12)' : 'transparent',
+              color: showMeta ? '#4F8EF7' : '#6B85A8',
             }}
           >
-            <Settings className="w-3 h-3" />
+            <Settings className="w-3.5 h-3.5" />
             Configurar
           </button>
         </div>
@@ -101,8 +146,8 @@ function App() {
       {/* Meta editor */}
       {showMeta && (
         <div
-          className="flex-shrink-0 px-6 py-4"
-          style={{ background: '#0a0a0a', borderBottom: '1px solid #1f1f1f' }}
+          className="flex-shrink-0 px-6 py-4 animate-fade-in"
+          style={{ background: '#0A1020', borderBottom: '1px solid #1E2D47' }}
         >
           <div className="max-w-3xl mx-auto grid grid-cols-4 gap-3">
             {[
@@ -112,13 +157,26 @@ function App() {
               { key: 'company',  label: 'Empresa' },
             ].map(({ key, label }) => (
               <div key={key}>
-                <label className="block text-[10px] text-dark-500 mb-1 uppercase tracking-wider font-mono">{label}</label>
+                <label
+                  className="block text-[11px] mb-1.5 font-medium uppercase tracking-wider"
+                  style={{ color: '#6B85A8' }}
+                >
+                  {label}
+                </label>
                 <input
                   type="text"
                   value={(meta as any)[key]}
                   onChange={(e) => setMeta({ ...meta, [key]: e.target.value })}
-                  className="w-full text-sm text-white placeholder-dark-600 focus:outline-none"
-                  style={{ background: '#0f0f0f', border: '1px solid #2a2a2a', borderRadius: 0, padding: '6px 10px' }}
+                  className="w-full text-sm focus:outline-none transition-colors"
+                  style={{
+                    background: '#0F1629',
+                    border: '1px solid #1E2D47',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    color: '#EDF2FF',
+                  }}
+                  onFocus={e => (e.target.style.borderColor = '#4F8EF7')}
+                  onBlur={e  => (e.target.style.borderColor = '#1E2D47')}
                 />
               </div>
             ))}
@@ -132,7 +190,7 @@ function App() {
         {/* Left sidebar */}
         <aside
           className="flex-shrink-0 overflow-hidden flex flex-col"
-          style={{ width: 240, background: '#000', borderRight: '1px solid #1f1f1f' }}
+          style={{ width: 248, background: '#0A1020', borderRight: '1px solid #1E2D47' }}
         >
           <SectionPanel
             sections={sections}

@@ -19,18 +19,17 @@ interface ReportPreviewProps {
 
 type Tab = 'report' | 'data' | 'analysis';
 
-// Nothing-style tab button
 function TabBtn({ active, onClick, icon, label, badge }: {
   active: boolean; onClick: () => void; icon: React.ReactNode; label: string; badge?: number;
 }) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-1.5 text-xs font-medium transition-colors"
+      className="flex items-center gap-1.5 text-xs font-medium transition-all"
       style={{
-        padding: '6px 12px',
-        borderBottom: `2px solid ${active ? '#ffffff' : 'transparent'}`,
-        color: active ? '#ffffff' : '#555555',
+        padding: '6px 14px',
+        borderBottom: `2px solid ${active ? '#4F8EF7' : 'transparent'}`,
+        color: active ? '#4F8EF7' : '#6B85A8',
         background: 'transparent',
       }}
     >
@@ -38,8 +37,12 @@ function TabBtn({ active, onClick, icon, label, badge }: {
       {label}
       {badge !== undefined && badge > 0 && (
         <span
-          className="font-mono text-[10px]"
-          style={{ color: active ? '#888' : '#333' }}
+          className="text-[10px] px-1.5 py-0.5 font-medium"
+          style={{
+            background: active ? 'rgba(79,142,247,0.15)' : 'rgba(30,45,71,0.8)',
+            borderRadius: 4,
+            color: active ? '#4F8EF7' : '#3E5470',
+          }}
         >
           {badge}
         </span>
@@ -62,12 +65,12 @@ export function ReportPreview({ sheets, sections, meta, onToggleSection, onUpdat
   return (
     <div
       className={`flex flex-col h-full ${isFullScreen ? 'fixed inset-0 z-50' : ''}`}
-      style={{ background: '#000', fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
+      style={{ background: '#070C1A', fontFamily: '"Inter", system-ui, sans-serif' }}
     >
       {/* Toolbar */}
       <div
         className="flex items-center justify-between flex-shrink-0 px-4"
-        style={{ height: 44, borderBottom: '1px solid #1f1f1f', background: '#000' }}
+        style={{ height: 44, borderBottom: '1px solid #1E2D47', background: '#0A1020' }}
       >
         {/* Tabs */}
         <div className="flex items-center h-full">
@@ -85,44 +88,44 @@ export function ReportPreview({ sheets, sections, meta, onToggleSection, onUpdat
           {/* Edit mode toggle */}
           <button
             onClick={() => setEditMode(!editMode)}
-            className="flex items-center gap-1.5 text-xs font-medium transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium transition-all"
             style={{
               padding: '4px 10px',
-              border: `1px solid ${editMode ? '#f59e0b' : '#1f1f1f'}`,
-              borderRadius: 0,
-              background: editMode ? 'rgba(245,158,11,0.08)' : 'transparent',
-              color: editMode ? '#f59e0b' : '#555',
+              border: `1px solid ${editMode ? 'rgba(251,191,36,0.4)' : '#1E2D47'}`,
+              borderRadius: 6,
+              background: editMode ? 'rgba(251,191,36,0.1)' : 'transparent',
+              color: editMode ? '#FBBF24' : '#6B85A8',
             }}
           >
             <Pencil className="w-3 h-3" />
             {editMode ? 'Editando' : 'Editar'}
           </button>
 
-          <div className="w-px h-4 mx-1" style={{ background: '#1f1f1f' }} />
+          <div className="w-px h-4 mx-1" style={{ background: '#1E2D47' }} />
 
           {/* PDF export — primary action */}
           <button
             onClick={() => exportToPdf('report-document', 'reporte.pdf')}
             disabled={isExporting || visibleSections.length === 0}
-            className="flex items-center gap-1.5 text-xs font-semibold transition-colors disabled:opacity-30"
-            style={{
-              padding: '4px 12px',
-              border: '1px solid #ff3333',
-              borderRadius: 0,
-              background: 'rgba(255,51,51,0.12)',
-              color: '#ff6666',
-            }}
+            className="btn-primary flex items-center gap-1.5 text-xs font-semibold disabled:opacity-30"
+            style={{ padding: '5px 14px' }}
           >
             <Download className="w-3.5 h-3.5" />
-            PDF
+            {isExporting ? 'Exportando…' : 'PDF'}
           </button>
 
           {/* HTML */}
           <button
             onClick={() => exportToHtml('report-document', 'reporte.html')}
             disabled={isExporting || visibleSections.length === 0}
-            className="flex items-center justify-center transition-colors disabled:opacity-30 text-dark-600 hover:text-white"
-            style={{ width: 30, height: 30, border: '1px solid #1f1f1f', borderRadius: 0, background: 'transparent' }}
+            className="flex items-center justify-center transition-all disabled:opacity-30"
+            style={{
+              width: 30, height: 30,
+              border: '1px solid #1E2D47', borderRadius: 6, background: 'transparent',
+              color: '#6B85A8',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#A8BEDC')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
             title="Exportar HTML"
           >
             <Download className="w-3.5 h-3.5" />
@@ -132,8 +135,14 @@ export function ReportPreview({ sheets, sections, meta, onToggleSection, onUpdat
           <button
             onClick={() => print('report-document')}
             disabled={visibleSections.length === 0}
-            className="flex items-center justify-center transition-colors disabled:opacity-30 text-dark-600 hover:text-white"
-            style={{ width: 30, height: 30, border: '1px solid #1f1f1f', borderRadius: 0, background: 'transparent' }}
+            className="flex items-center justify-center transition-all disabled:opacity-30"
+            style={{
+              width: 30, height: 30,
+              border: '1px solid #1E2D47', borderRadius: 6, background: 'transparent',
+              color: '#6B85A8',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#A8BEDC')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
             title="Imprimir"
           >
             <Printer className="w-3.5 h-3.5" />
@@ -142,8 +151,14 @@ export function ReportPreview({ sheets, sections, meta, onToggleSection, onUpdat
           {/* Fullscreen */}
           <button
             onClick={() => setIsFullScreen(!isFullScreen)}
-            className="flex items-center justify-center transition-colors text-dark-600 hover:text-white"
-            style={{ width: 30, height: 30, border: '1px solid #1f1f1f', borderRadius: 0, background: 'transparent' }}
+            className="flex items-center justify-center transition-all"
+            style={{
+              width: 30, height: 30,
+              border: '1px solid #1E2D47', borderRadius: 6, background: 'transparent',
+              color: '#6B85A8',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#A8BEDC')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#6B85A8')}
             title="Pantalla completa"
           >
             {isFullScreen ? <X className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
@@ -189,7 +204,7 @@ export function ReportPreview({ sheets, sections, meta, onToggleSection, onUpdat
       {activeTab === 'report' && (
         <div
           className="flex-1 overflow-y-auto p-6"
-          style={{ background: '#0a0a0a' }}
+          style={{ background: '#070C1A' }}
         >
           <div
             id="report-document"
