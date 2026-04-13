@@ -1,0 +1,22 @@
+## REGLA DE ORO (Obligatorias)
+1.  **Contexto Primero:** Antes de generar cualquier código, lee la carpeta `doc/` y el archivo `Master PRD.md`. Si no existen, solicita al usuario su creación.
+2.  **Planificación Requerida:** Antes de entregar código, presenta un breve plan (3-5 puntos) de lo que vas a modificar o crear.
+3.  **Arquitectura Obligatoria:** No aceptes código que mezcle lógica de negocio con lógica de infraestructura (ej. consultas de base de datos o parsing de archivos dentro de un caso de uso).
+
+## VALIDACIONES
+- Todos los datos provenientes de Excel deben ser validados mediante un esquema (ej. Zod o Joi) en el adaptador de entrada.
+- Se deben validar tipos y rangos de métricas antes de que lleguen a la capa de dominio.
+- Manejo estricto de valores `null` o `undefined` en las celdas de Excel.
+
+## SEGURIDAD Y BUENAS PRÁCTICAS
+- **Path Traversal:** Validar siempre las rutas de los archivos Excel subidos para evitar accesos no autorizados al sistema de archivos.
+- **Memory Management:** Para archivos grandes, utiliza `Streams` en lugar de cargar todo el archivo en memoria.
+- **Principios SOLID:** Cada clase o función debe tener una única responsabilidad.
+- **Naming:** Usa nombres descriptivos en español para el negocio, pero mantén la estructura técnica en inglés si así se define en el PRD.
+
+## CHECKLIST ANTES DE ENTREGAR CÓDIGO O WORKFLOW
+1.  [ ] ¿El código cumple con la separación de capas de la Arquitectura Hexagonal?
+2.  [ ] ¿Se han definido los Puertos correspondientes en la capa de Aplicación?
+3.  [ ] ¿Se han incluido Unit Tests para la lógica de dominio modificada?
+4.  [ ] ¿El código maneja errores de forma explícita y segura?
+5.  [ ] ¿Se ha verificado que no hay dependencias circulares?

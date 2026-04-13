@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #000000;
+  color: #ffffff;
+}
+
+/* ── Nothing-style scrollbar ────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}
+
+/* ── Animations ─────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { transform: translateX(-8px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.animate-fade-in  { animation: fadeIn  0.25s ease-out; }
+.animate-slide-in { animation: slideIn 0.25s ease-out; }
+.animate-pulse-slow { animation: pulse 3s infinite; }
+
+/* ── Report document (white, professional) ──────────────── */
+#report-content {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  color: #1e293b;
+}
+#report-content h1,
+#report-content h2,
+#report-content h3 { font-weight: 600; }
+#report-content table { border-collapse: collapse; width: 100%; }
+#report-content th    { font-weight: 600; text-align: left; }
+#report-content td    { vertical-align: middle; }
+
+/* ── Drag states ────────────────────────────────────────── */
+.dragging  { opacity: 0.4; transform: scale(0.97); }
+.drag-over { border-top: 1px solid #ff3333; }
+
+/* ── Focus ring ─────────────────────────────────────────── */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid #ff3333;
+  outline-offset: 2px;
+}
+
+/* ── Print ──────────────────────────────────────────────── */
+@media print {
+  body { background: white; }
+  #report-content { box-shadow: none; padding: 0; }
+}
+
+/* ── Nothing dot-matrix decoration ─────────────────────── */
+.nothing-dot-grid {
+  background-image: radial-gradient(circle, #1f1f1f 1px, transparent 1px);
+  background-size: 20px 20px;
+}
